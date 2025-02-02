@@ -3,7 +3,7 @@ import { useState } from "react";
 import Logo from "./Logo";
 import "./styles/Register.css";
 
-const Register = () => {
+const Register = ({ handleRegistration }) => {
   const [data, setData] = useState({
     username: "",
     email: "",
@@ -19,11 +19,23 @@ const Register = () => {
     }));
   };
 
+  // Declare a submission handler function. This function just needs
+  // to prevent the default browser behavior, and call
+  // handleRegistration, passing it the data from the form
+  // submission.
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleRegistration(data);
+  };
+
   return (
     <div className="register">
       <Logo title={"CryptoDucks"} />
       <p className="register__welcome">Please register.</p>
-      <form className="register__form">
+      {/* Add the submission handler as the form's onSubmit attribute. */} 
+      <form
+        className="register__form"
+        onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
         <input
           id="username"
@@ -57,14 +69,18 @@ const Register = () => {
           onChange={handleChange}
         />
         <div className="register__button-container">
-          <button type="submit" className="register__link">
+          <button
+            type="submit"
+            className="register__link">
             Sign up
           </button>
         </div>
       </form>
       <div className="register__signin">
         <p>Already a member?</p>
-        <Link to="login" className="register__login-link">
+        <Link
+          to="login"
+          className="register__login-link">
           Log in here
         </Link>
       </div>
